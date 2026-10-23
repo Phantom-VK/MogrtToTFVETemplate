@@ -34,6 +34,7 @@ A `.mogrt` package is a zip bundle containing:
 - **Shape & Trim Paths Support**:
   - Converts rectangles, ellipses, and stroked lines.
   - Converts 2-point stroked lines animated with Trim Paths into animated rect clips.
+  - Converts a stroked rectangle outline animated with Trim Paths (the white line that runs round the sample's title) into thin rect clips, one per side of the rectangle the line visits, each drawn as the part of that side inside the trimmed range. The rectangle's size, position and Trim Offset are evaluated from their expressions.
 - **Essential Graphics Controls**:
   - Extracts text inputs, font styling, and color controls into `publishedParams`.
   - Normalizes text matching case-insensitively so default values accurately link to target text layers.
@@ -71,12 +72,12 @@ pip install -r requirements.txt
 
 ```bash
 python converter.py mixkit-305.mogrt -o out/lowerthird-01.tfvetemplate \
-  --duration 5 \
+  --duration 4.283 --outro 1.533 \
   --font-map "AcuminPro=Bebas Neue" \
   --font-dir /path/to/TheFreeVideoEditor/public/fonts
 ```
 
-This is the command that produced `out/lowerthird-01.tfvetemplate`, and `mixkit-305-preview.mp4` is the look it targets.
+This is the command that produced `out/lowerthird-01.tfvetemplate`, and `mixkit-305-preview.mp4` is the look it targets. The preview holds the finished title until 2.75 s and then plays the intro backwards, reaching zero at 4.283 s (a time remap in the mogrt), which is what `--duration 4.283 --outro 1.533` reproduces, including the white line running back round the title. Without `--outro` the template ends on the finished title.
 The font options are explained in [Fonts and Text Measurement](#fonts-and-text-measurement).
 
 ### Batch Directory Conversion
@@ -109,7 +110,7 @@ python converter.py title.mogrt \
 | `--category` | `str` | `Titles` | Template category (e.g., `Titles`, `Lower Thirds`, `Social`). |
 | `--author` | `str` | `TheFreeVideoEditor` | Author name in metadata. |
 | `--duration` | `float` | Comp length | Target template duration in seconds. |
-| `--outro` | `float` | `0.0` | Seconds of mirrored intro animation appended at the end as an outro. |
+| `--outro` | `float` | `0.0` | Seconds of mirrored intro animation appended at the end as an outro. If the mogrt's wrapper layer has a Time Remap, the intro ends where the remap holds, so the mirrored exit lines up with it (`--duration 4.283 --outro 1.533` reproduces the sample preview's exit). |
 | `--canvas` | `int int` | `1920 1080` | Target editor canvas size; comp is uniformly scaled to fit. |
 | `--descent-ratio` | `float` | per font | Ratio of font size between baseline and box bottom. Default: the value measured for the editor font (`0.35` for Bebas Neue), else `0.3`. |
 | `--font-map` | `FROM=TO` | `None` | Draw an After Effects font in an editor font, e.g. `"AcuminPro=Bebas Neue"`. Repeatable. |
