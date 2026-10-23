@@ -510,6 +510,22 @@ def load_mogrt(path: Path, workdir: Path):
     return definition, comp, wrappers, outer
 
 
+def time_remap_hold(wrappers):
+    """Inner-comp time at which the wrapper layers' Time Remap stops advancing, or None.  That is
+    where the intro really ends (the remap freezes the artwork there, even if a keyframe runs a
+    little later) and where a replay of the intro for the exit starts.  Only a remap that plays at
+    normal speed up to the hold is understood."""
+    for W in wrappers:
+        prop = next((p for p in walk_layer(W) if p.match_name == "ADBE Time Remapping"), None)
+        if prop is None or not getattr(W, "time_remap_enabled", False):
+            continue
+        keys = [(k.time, float(k.value)) for k in prop.keyframes]
+        for (t0, v0), (t1, v1) in zip(keys, keys[1:]):
+            if t0 > 0 and abs(v1 - v0) < 1e-6:
+                return v0 if abs(t0 - v0) < 1e-3 else None
+    return None
+
+
 def _descend_precomp(comp):
     """Many mogrts wrap the real artwork in a nested comp (often 2x larger, scaled down by
     the wrapper layer).  If `comp` has no text / shape layers of its own, follow its first
@@ -1542,6 +1558,9 @@ def convert(path: Path, args) -> tuple[dict, list[str]]:
         for c in clips:
             for name, key, tolkey, dim in CHANNELS:
                 intro_end = max(intro_end, last_change_time(baked[id(c)][name], tolkey))
+        held = time_remap_hold(wrappers)
+        if held is not None:
+            intro_end = held
         outro = float(args.outro or 0.0)
         if outro > 0 and (intro_end <= 0 or intro_end + outro > D):
             notes.warn("outro skipped: it would not fit after the intro within the duration (raise --duration)")

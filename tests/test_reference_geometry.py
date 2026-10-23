@@ -182,6 +182,8 @@ class OutlineLineTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tpl = convert_sample(*cls.FONT_ARGS)
+        # The preview leaves by playing the intro backwards from 1.733 s over 1.533 s (a time remap).
+        cls.leaving = convert_sample(*cls.FONT_ARGS, "--duration", "4.283", "--outro", "1.533")
 
     def line(self, tpl, clip_id, seconds):
         """Rect of an outline clip in 1080p pixels, or None while it is not drawn."""
@@ -220,6 +222,14 @@ class OutlineLineTest(unittest.TestCase):
         for t in (0.20, 1.50, 2.00, 3.00):
             for clip_id in ("clip_outline_top", "clip_outline_right"):
                 self.assertIsNone(self.line(self.tpl, clip_id, t), f"{clip_id} at {t}s")
+
+    def test_line_runs_back_the_same_way_when_the_template_leaves(self):
+        self.assertAlmostEqual(self.line(self.leaving, "clip_outline_right", 3.50)[3], 816, delta=PX - 1)
+        self.assertIsNone(self.line(self.leaving, "clip_outline_top", 3.50))
+        for t, span in ((3.70, (534, 706)), (3.90, (306, 396))):
+            rect = self.line(self.leaving, "clip_outline_top", t)
+            self.assertIsNotNone(rect, f"top edge at {t}s")
+            self.assertSpan(rect, span, f"top edge at {t}s", "x")
 
 
 if __name__ == "__main__":
