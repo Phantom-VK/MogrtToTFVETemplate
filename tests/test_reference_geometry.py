@@ -115,5 +115,51 @@ class TextSizeTest(unittest.TestCase):
         self.assertLess(size["defaultValue"], size["max"])
 
 
+class FontMapTest(unittest.TestCase):
+    def test_font_map_substitutes_family_and_clamps_weight(self):
+        tpl = convert_sample("--font-map", "AcuminPro=Bebas Neue")
+        for clip_id in ("clip_title", "clip_subtitle"):
+            style = clip_named(tpl, clip_id)["source"]["style"]
+            self.assertEqual(style["fontFamily"], "Bebas Neue")
+            # Bebas Neue ships only a Regular; any other weight is drawn as synthetic bold.
+            self.assertEqual(style["fontWeight"], "400")
+
+
+@unittest.skipUnless(FONT_DIR.is_dir(), "needs the editor's fonts (set TFVE_FONT_DIR)")
+class PreviewGeometryTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tpl = convert_sample("--font-map", "AcuminPro=Bebas Neue", "--font-dir", str(FONT_DIR))
+
+    def assertEdges(self, rect, expected, name):
+        for got, want, edge in zip(rect, expected, ("left", "top", "right", "bottom")):
+            self.assertAlmostEqual(got, want, delta=PX, msg=f"{name} {edge}: {got:.1f} vs preview {want}")
+
+    def test_white_name_box(self):
+        self.assertEdges(shape_rect(self.tpl, "clip_shape1"), (297.0, 754.5, 742.5, 864.0), "white box")
+
+    def test_blue_accent_behind_the_name_box(self):
+        # Same top and bottom as the white box, ends 27 px to its right.
+        self.assertEdges(shape_rect(self.tpl, "clip_shape2"), (297.0, 754.5, 771.0, 864.0), "accent")
+
+    def test_blue_subtitle_strip(self):
+        self.assertEdges(shape_rect(self.tpl, "clip_divider"), (297.0, 873.0, 804.0, 907.5), "strip")
+
+    def _baseline_and_left(self, clip_id):
+        c = clip_named(self.tpl, clip_id)
+        x, y = value_at(c["properties"]["position"], T, [0, 0])
+        return CANVAS_H / 2 + y - BEBAS_BASELINE_EM * font_size(c), CANVAS_W / 2 + x
+
+    def test_title_baseline_and_left_edge(self):
+        baseline, left = self._baseline_and_left("clip_title")
+        self.assertAlmostEqual(baseline, 859.5, delta=2.0)  # ink bottom of "JON DEE" in the preview
+        self.assertAlmostEqual(left, 306.7, delta=2.0)  # preview ink starts at 309, minus the 2.3 px side bearing
+
+    def test_subtitle_baseline_and_left_edge(self):
+        baseline, left = self._baseline_and_left("clip_subtitle")
+        self.assertAlmostEqual(baseline, 902.7, delta=2.0)
+        self.assertAlmostEqual(left, 311.6, delta=2.0)
+
+
 if __name__ == "__main__":
     unittest.main()

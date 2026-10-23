@@ -78,6 +78,21 @@ WEIGHTS = {
     "black": 900, "heavy": 900,
 }
 
+# Fonts the editor bundles (public/fonts), with what is needed to place text drawn in them:
+#   baseline  how far (em) the editor draws the baseline above the bottom of a text clip's box.
+#             Measured in the Program monitor with flat-bottomed capitals; it differs per font.
+#   weights   the weights the font file really has (None = variable font).  Any other weight is
+#             drawn as synthetic bold, which is wider and taller than the real glyphs.
+EDITOR_FONTS = {
+    "bebas neue": {"baseline": 0.350, "weights": (400,)},
+    "inter": {"baseline": 0.297, "weights": None},
+    "montserrat": {"baseline": 0.307, "weights": None},
+    "playfair display": {"baseline": 0.287, "weights": None},
+    "roboto mono": {"baseline": 0.307, "weights": None},
+    "caveat": {"baseline": 0.257, "weights": None},
+}
+DEFAULT_BASELINE = 0.3  # for a font that has not been measured
+
 
 # --------------------------------------------------------------------------- #
 # small helpers
@@ -316,9 +331,26 @@ def split_font(ps: str):
     return fam, weight, italic
 
 
+def _norm(name: str) -> str:
+    """Font names compared without spaces, dashes or case ('Bebas Neue' == 'BebasNeue')."""
+    return re.sub(r"[\s_\-]", "", name or "").lower()
+
+
+def resolve_font(ps: str, font_map: dict[str, str]):
+    """Family, weight and italic the output clip uses for an AE PostScript name: the family goes
+    through --font-map, then the weight snaps to one the editor's font really has."""
+    fam, weight, italic = split_font(ps)
+    fam = font_map.get(_norm(fam)) or font_map.get(_norm(ps)) or fam
+    weights = (EDITOR_FONTS.get(fam.lower()) or {}).get("weights")
+    if weights:
+        weight = min(weights, key=lambda w: abs(w - weight))
+    return fam, weight, italic
+
+
 class TextMeter:
     """Width estimation. Uses real glyph advances if a matching font file is found in
-    --font-dir, otherwise a calibrated heuristic (good enough for bounds + matte maths)."""
+    --font-dir, otherwise a calibrated heuristic (good enough for bounds + matte maths).
+    Files are found by PostScript name or by family name."""
 
     def __init__(self, font_dir: str | None, notes: Notes):
         self.files = {}
@@ -334,22 +366,84 @@ class TextMeter:
                 if p.suffix.lower() in (".ttf", ".otf"):
                     try:
                         f = TTFont(str(p), lazy=True)
-                        ps = f["name"].getDebugName(6)
+                        names = f["name"]
+                        ps = names.getDebugName(6)
                         if ps:
-                            self.files[ps] = p
+                            self.files[_norm(ps)] = p
+                        family = names.getDebugName(16) or names.getDebugName(1)
+                        if family:
+                            regular = _norm(names.getDebugName(17) or names.getDebugName(2)) == "regular"
+                            if regular or _norm(family) not in self.files:
+                                self.files[_norm(family)] = p
                     except Exception:
                         pass
 
-    def width(self, ps, size, text, tracking_px, weight):
-        lines = text.split("\n")
-        return max(self._line(ps, size, ln, tracking_px, weight) for ln in lines) if lines else 0.0
+    def _font(self, names):
+        """Loaded font for the first of `names` (family or PostScript name) that has a file."""
+        for name in names:
+            key = _norm(name)
+            if key not in self.files:
+                continue
+            if key not in self.cache:
+                try:
+                    from fontTools.ttLib import TTFont
+                    self.cache[key] = TTFont(str(self.files[key]))
+                except Exception:
+                    self.cache[key] = None
+            if self.cache[key] is not None:
+                return self.cache[key]
+        return None
 
-    def _line(self, ps, size, line, tracking_px, weight):
-        if ps in self.files:
+    def ink(self, names, size, text):
+        """(top, bottom) of the glyph outlines relative to the baseline in px (top is negative,
+        bottom is positive below it), or None when there is no font file."""
+        f = self._font(names)
+        if f is None:
+            return None
+        try:
+            from fontTools.pens.boundsPen import BoundsPen
+            gs, cmap, upm = f.getGlyphSet(), f.getBestCmap(), f["head"].unitsPerEm
+            lo, hi = [], []
+            for ch in text:
+                if ch.isspace():
+                    continue
+                pen = BoundsPen(gs)
+                gs[cmap.get(ord(ch), ".notdef")].draw(pen)
+                if pen.bounds:
+                    lo.append(pen.bounds[1])
+                    hi.append(pen.bounds[3])
+            return (-max(hi) * size / upm, -min(lo) * size / upm) if hi else None
+        except Exception:
+            return None
+
+    def bearings(self, names, size, line):
+        """(left, right) empty space in px between a line's advance box and its first and last
+        glyph outline, or (0, 0) when there is no font file."""
+        f = self._font(names)
+        line = line.strip()
+        if f is None or not line:
+            return 0.0, 0.0
+        try:
+            from fontTools.pens.boundsPen import BoundsPen
+            gs, cmap, hmtx, upm = f.getGlyphSet(), f.getBestCmap(), f["hmtx"], f["head"].unitsPerEm
+            first, last = (cmap.get(ord(c), ".notdef") for c in (line[0], line[-1]))
+            lb, rb = BoundsPen(gs), BoundsPen(gs)
+            gs[first].draw(lb)
+            gs[last].draw(rb)
+            if not lb.bounds or not rb.bounds:
+                return 0.0, 0.0
+            return lb.bounds[0] * size / upm, (hmtx[last][0] - rb.bounds[2]) * size / upm
+        except Exception:
+            return 0.0, 0.0
+
+    def width(self, names, size, text, tracking_px, weight):
+        lines = text.split("\n")
+        return max(self._line(names, size, ln, tracking_px, weight) for ln in lines) if lines else 0.0
+
+    def _line(self, names, size, line, tracking_px, weight):
+        f = self._font(names)
+        if f is not None:
             try:
-                from fontTools.ttLib import TTFont
-                f = self.cache.get(ps) or TTFont(str(self.files[ps]))
-                self.cache[ps] = f
                 cmap, hmtx, upm = f.getBestCmap(), f["hmtx"], f["head"].unitsPerEm
                 w = sum(hmtx[cmap.get(ord(ch), ".notdef")][0] for ch in line) * size / upm
                 return w + tracking_px * max(len(line) - 1, 0)
@@ -462,6 +556,7 @@ class Ctx:
             notes.warn(f"artwork lives in nested comp '{comp.name}' ({comp.width}x{comp.height}) inside "
                        f"'{outer.name}' ({outer.width}x{outer.height}); wrapper layer transform applied")
         self.meter = TextMeter(args.font_dir, notes)
+        self.font_map = getattr(args, "font_map", None) or {}
         self._wm = {}
 
     # --- transforms --------------------------------------------------------
@@ -580,13 +675,22 @@ class Ctx:
                 text = (doc.text or "").replace("\r\n", "\n").replace("\r", "\n").replace("\x03", "\n")
                 if getattr(doc, "all_caps", False):
                     text = text.upper()
-                _, weight, _ = split_font(doc.font)
+                fam, weight, _ = resolve_font(doc.font, self.font_map)
+                names = (fam, doc.font)
                 size = float(doc.font_size)
                 trk = float(doc.tracking or 0) / 1000.0 * size
-                w = self.meter.width(doc.font, size, text, trk, weight) * self.args.text_width_factor
+                # AE measures the glyphs themselves: the rect is the box around their outlines, so the
+                # widest line counts without the empty space before its first and after its last glyph.
+                widest = max(text.split("\n"), key=lambda ln: self.meter.width(names, size, ln, trk, weight))
+                adv = self.meter.width(names, size, widest, trk, weight) * self.args.text_width_factor
+                lsb, rsb = self.meter.bearings(names, size, widest)
+                w = adv - lsb - rsb
                 nl = text.count("\n") + 1
                 lead = float(getattr(doc, "leading", size * 1.2) or size * 1.2)
-                h = size * self.args.text_height_ratio + (nl - 1) * lead
+                # Likewise the height is the ink height of these characters (0.72 em for capitals)
+                # when there is a font file, not a fixed share of the font size.
+                ink = self.meter.ink(names, size, text)
+                h = (ink[1] - ink[0] if ink else size * self.args.text_height_ratio) + (nl - 1) * lead
                 just = int(doc.justification)
                 b_shift = float(getattr(doc, "baseline_shift", 0.0) or 0.0)
                 if getattr(doc, "box_text", False) and getattr(doc, "box_text_pos", None):
@@ -601,8 +705,8 @@ class Ctx:
                         left = bx + (bw - w) / 2.0
                     top = by - b_shift
                 else:
-                    left = {7413: 0.0, 7414: -w}.get(just, -w / 2.0)
-                    top = -size * self.args.text_ascent_ratio - b_shift
+                    left = {7413: lsb, 7414: lsb - adv}.get(just, lsb - adv / 2.0)
+                    top = (ink[0] if ink else -size * self.args.text_ascent_ratio) - b_shift
                 out = {"width": w, "height": h, "left": left, "top": top}
             except Exception as e:
                 self.notes.warn(f"could not measure text layer '{name}' ({type(e).__name__})")
@@ -737,17 +841,21 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
     text = (doc.text or "").replace("\r\n", "\n").replace("\r", "\n").replace("\x03", "\n")
     if getattr(doc, "all_caps", False):
         text = text.upper()
-    fam, weight, italic = split_font(doc.font)
+    fam, weight, italic = resolve_font(doc.font, ctx.font_map)
+    if fam.lower() not in EDITOR_FONTS:
+        ctx.notes.warn(f"'{L.name}': font '{fam}' is not bundled with the editor, so it is drawn in a "
+                       f"fallback font; pick one with --font-map (e.g. --font-map \"{fam}=Bebas Neue\")")
     size = float(doc.font_size)
     tracking_px = float(doc.tracking or 0) / 1000.0 * size
     just = int(doc.justification)
     align = {7413: "left", 7414: "right"}.get(just, "center")
     nlines = text.count("\n") + 1
     leading = float(getattr(doc, "leading", size * 1.2) or size * 1.2)
-    width = ctx.meter.width(doc.font, size, text, tracking_px, weight)
+    width = ctx.meter.width((fam, doc.font), size, text, tracking_px, weight)
     base_last = (nlines - 1) * leading                              # last baseline (layer y)
     b_shift = float(getattr(doc, "baseline_shift", 0.0) or 0.0)
-    descent = ctx.args.descent_ratio * size
+    baseline = (EDITOR_FONTS.get(fam.lower()) or {}).get("baseline", DEFAULT_BASELINE)
+    descent = (ctx.args.descent_ratio if ctx.args.descent_ratio is not None else baseline) * size
 
     if getattr(doc, "box_text", False) and getattr(doc, "box_text_pos", None):
         bx = float(doc.box_text_pos[0])
@@ -759,7 +867,11 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
             px = bx + width
         else:
             px = bx + width / 2.0
-        py = by + (nlines - 1) * leading + 1.2 * size - b_shift
+        # The first baseline sits one ascent (the glyphs' height above the baseline) below the
+        # box top, the same rule text_rect uses for the top of the rect.
+        ink = ctx.meter.ink((fam, doc.font), size, text)
+        ascent = -ink[0] if ink else ctx.args.text_ascent_ratio * size
+        py = by - b_shift + ascent + (nlines - 1) * leading + descent
         x0 = bx if align == "left" else (bx + (bw - width) / 2.0 if align == "center" else bx + bw - width)
         x1 = x0 + width
         y0 = by - b_shift
@@ -1510,7 +1622,10 @@ def main(argv=None):
     ap.add_argument("--author", default="TheFreeVideoEditor")
     ap.add_argument("--duration", type=float, help="template length in seconds (default: AE comp length)")
     ap.add_argument("--outro", type=float, default=0.0, help="seconds of mirrored-intro outro appended at the end (0 = none, exact to source)")
-    ap.add_argument("--descent-ratio", type=float, default=0.3, help="text box bottom = baseline + ratio*fontSize")
+    ap.add_argument("--descent-ratio", type=float, default=None,
+                    help="text box bottom = baseline + ratio*fontSize (default: measured per editor font, else 0.3)")
+    ap.add_argument("--font-map", action="append", default=[], metavar="FROM=TO",
+                    help="draw an After Effects font in an editor font, e.g. \"AcuminPro=Bebas Neue\" (repeatable)")
     ap.add_argument("--min-scale", type=float, default=0.001, help="smallest scale used when a trimmed line has zero length")
     ap.add_argument("--hide-empty-trim", action="store_true", help="also drive opacity to 0 while a trimmed line has zero length")
     ap.add_argument("--flip-rotation", action="store_true", help="negate rotation if the editor is counter-clockwise-positive")
@@ -1528,6 +1643,13 @@ def main(argv=None):
     ap.add_argument("--text-height-ratio", type=float, default=1.0, help="sourceRect height = ratio * font size")
     ap.add_argument("--text-ascent-ratio", type=float, default=0.72, help="sourceRect top = -ratio * font size")
     args = ap.parse_args(argv)
+    font_map = {}
+    for entry in args.font_map:
+        src, sep, dst = entry.partition("=")
+        if not (sep and src.strip() and dst.strip()):
+            ap.error(f"--font-map expects FROM=TO, got {entry!r}")
+        font_map[_norm(src)] = dst.strip()
+    args.font_map = font_map
 
     files = []
     for i in args.inputs:
