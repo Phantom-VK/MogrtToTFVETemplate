@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Intermediate AE project extraction files
+*.aep
+*.aegraphic
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
