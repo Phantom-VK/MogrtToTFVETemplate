@@ -67,12 +67,12 @@ def clip_named(tpl, clip_id):
     raise KeyError(clip_id)
 
 
-def shape_rect(tpl, clip_id):
+def shape_rect(tpl, clip_id, t=T):
     """Left, top, right, bottom of a shape clip in 1080p pixels."""
     c = clip_named(tpl, clip_id)
     p = c["properties"]
-    x, y = value_at(p.get("position"), T, [0, 0])
-    sx, sy = value_at(p.get("scale"), T, [1, 1])
+    x, y = value_at(p.get("position"), t, [0, 0])
+    sx, sy = value_at(p.get("scale"), t, [1, 1])
     w, h = c["source"]["width"] * abs(sx), c["source"]["height"] * abs(sy)
     cx, cy = CANVAS_W / 2 + x, CANVAS_H / 2 + y
     return cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2
@@ -166,6 +166,60 @@ class PreviewGeometryTest(unittest.TestCase):
         baseline, left = self._baseline_and_left("clip_subtitle")
         self.assertAlmostEqual(baseline, 902.7, delta=2.0)
         self.assertAlmostEqual(left, 311.6, delta=2.0)
+
+
+@unittest.skipUnless(FONT_DIR.is_dir(), "needs the editor's fonts (set TFVE_FONT_DIR)")
+class OutlineLineTest(unittest.TestCase):
+    """The thin white line that runs round the title: from the top-left corner of the outline along the
+    top, then down the right side, and back the same way when the template leaves.
+
+    Expected ranges were measured on the frames of the preview video (white pixels in the row band of
+    the top edge, y 733-742, and the column band of the right edge, x 765-774, at 1080p).
+    """
+
+    FONT_ARGS = ("--font-map", "AcuminPro=Bebas Neue", "--font-dir", str(FONT_DIR))
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tpl = convert_sample(*cls.FONT_ARGS)
+
+    def line(self, tpl, clip_id, seconds):
+        """Rect of an outline clip in 1080p pixels, or None while it is not drawn."""
+        t = round(seconds * 1_000_000)
+        if value_at(clip_named(tpl, clip_id)["properties"].get("opacity"), t, 1.0) < 0.5:
+            return None
+        return shape_rect(tpl, clip_id, t)
+
+    def assertSpan(self, got, want, name, axis):
+        lo, hi = (got[0], got[2]) if axis == "x" else (got[1], got[3])
+        self.assertAlmostEqual(lo, want[0], delta=PX - 1, msg=f"{name} start {lo:.1f} vs preview {want[0]}")
+        self.assertAlmostEqual(hi, want[1], delta=PX - 1, msg=f"{name} end {hi:.1f} vs preview {want[1]}")
+
+    def test_only_the_edges_the_line_visits_are_drawn(self):
+        ids = {tr["id"] for tr in self.tpl["tracks"]}
+        self.assertLessEqual({"trk_outline_top", "trk_outline_right"}, ids)
+        self.assertFalse({"trk_outline_bottom", "trk_outline_left"} & ids)
+
+    def test_line_slides_along_the_top_edge(self):
+        for t, span in ((0.40, (302, 360)), (0.50, (333, 494)), (0.60, (441, 640)), (0.70, (596, 742))):
+            rect = self.line(self.tpl, "clip_outline_top", t)
+            self.assertIsNotNone(rect, f"top edge at {t}s")
+            self.assertSpan(rect, span, f"top edge at {t}s", "x")
+            self.assertAlmostEqual((rect[1] + rect[3]) / 2, 737.1, delta=1.5)  # the outline's top, 17 px above the box
+            self.assertAlmostEqual(rect[3] - rect[1], 3.75, delta=0.6)  # 7.5 px stroke at half size
+
+    def test_line_turns_the_corner_and_runs_down_the_right_edge(self):
+        self.assertIsNone(self.line(self.tpl, "clip_outline_top", 0.90))  # the top edge has been left behind
+        for t, span in ((0.90, (760, 822)), (1.00, (810, 849)), (1.10, (842, 862)), (1.20, (860, 868))):
+            rect = self.line(self.tpl, "clip_outline_right", t)
+            self.assertIsNotNone(rect, f"right edge at {t}s")
+            self.assertSpan(rect, span, f"right edge at {t}s", "y")
+            self.assertAlmostEqual((rect[0] + rect[2]) / 2, 769.0, delta=1.5)
+
+    def test_line_is_not_there_before_it_starts_or_after_it_has_run_out(self):
+        for t in (0.20, 1.50, 2.00, 3.00):
+            for clip_id in ("clip_outline_top", "clip_outline_right"):
+                self.assertIsNone(self.line(self.tpl, clip_id, t), f"{clip_id} at {t}s")
 
 
 if __name__ == "__main__":

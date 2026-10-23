@@ -34,8 +34,8 @@ KNOWN FIDELITY LIMITS (also printed as warnings per file)
 * Track mattes / masks have no equivalent in the reference schema.  A matte-driven
   reveal is approximated by an opacity ramp whose timing is computed from the real
   geometry (how much of the text is inside the matte at each instant).
-* Only: text layers, 2-point stroked lines (+Trim Paths), rect / ellipse /
-  rectangular-path shapes and solids are converted.  Effects other than Fill and
+* Only: text layers, 2-point stroked lines and rectangle outlines (+Trim Paths), rect /
+  ellipse / rectangular-path shapes and solids are converted.  Effects other than Fill and
   Color Control, text animators, 3D, expressions (except colour links) are skipped.
 * Assumptions about the editor (change with flags if it renders differently):
     - position is in px relative to the centre of the 1920x1080 AE comp,
@@ -786,6 +786,14 @@ def vector_group_matrix(gxf, t):
     return trs(pos, rot, (sc[0] / 100.0, sc[1] / 100.0), anc)
 
 
+def vector_group_rs(gxf, t):
+    """Rotation (degrees) and x / y scale (1 = 100 %) of a shape group's own transform."""
+    if gxf is None:
+        return 0.0, 1.0, 1.0
+    sc = find(gxf, "ADBE Vector Scale").value_at_time(t)
+    return find(gxf, "ADBE Vector Rotation").value_at_time(t), sc[0] / 100.0, sc[1] / 100.0
+
+
 def matte_local_poly(ctx, L, t):
     """Matte outline in the matte layer's own space (a rectangle).  Solids use their
     size; shape layers use the bounding box of their first rect / path / ellipse,
@@ -982,11 +990,29 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
 _SAFE = re.compile(r"^[\w\s\.\+\-\*/\(\),\[\]]*$")
 
 
-def eval_rect_expr(expr, rect):
+class _Vec(tuple):
+    """An After Effects array that supports  size/2  in the expressions we evaluate."""
+
+    def __truediv__(self, k):
+        return _Vec(v / k for v in self)
+
+    def __mul__(self, k):
+        return _Vec(v * k for v in self)
+
+
+_OWN_SIZE = re.compile(r'content\("[^"]*"\)(?:\.content\("[^"]*"\))*\.size\b')
+
+
+def eval_rect_expr(expr, rect, own=None, scalar=False):
     """Evaluate the common 'size/position from a text layer's sourceRectAtTime()' expression
-    pattern  (w = s.sourceRectAtTime().width; ...; [w+200, h+10]).  Returns [x, y] or None."""
+    pattern  (w = s.sourceRectAtTime().width; ...; [w+200, h+10]).  Returns [x, y] or None
+    (a number instead when `scalar`).  `own` is the [w, h] of the rect path the expression sits on,
+    for expressions that read  content("Rectangle 1").content("Rectangle Path 1").size."""
     src = re.sub(r"\w+\.sourceRectAtTime\([^)]*\)\.(width|height|top|left)", lambda m: "R_" + m.group(1), expr)
     env = {"R_" + k: float(v) for k, v in rect.items()}
+    if own is not None:
+        env["OWN"] = _Vec(float(v) for v in own)
+        src = _OWN_SIZE.sub("OWN", src)
     result = None
     for ln in (x.strip() for x in re.split(r"[;\r\n]+", src)):
         if not ln:
@@ -1008,23 +1034,27 @@ def eval_rect_expr(expr, rect):
             env[m.group(1)] = val
         else:
             result = val
+    if scalar:
+        return float(result) if isinstance(result, (int, float)) else None
     if isinstance(result, (list, tuple)) and len(result) >= 2:
         return [float(result[0]), float(result[1])]
     return None
 
 
-def resolve_expr_vec(ctx, prop, L, what):
-    """Value of an expression-driven 2-D property, or None if not an understood expression."""
+def resolve_expr_vec(ctx, prop, L, what, own=None, scalar=False):
+    """Value of an expression-driven property (2-D, or a number when `scalar`), or None if not an
+    understood expression.  `own` is the size of the rect path the expression reads from itself."""
     if prop is None or not getattr(prop, "expression_enabled", False):
         return None
     expr = getattr(prop, "expression", "") or ""
     m = re.search(r'layer\("([^"]+)"\)', expr)
-    rect = ctx.text_rect(m.group(1)) if m else None
-    val = eval_rect_expr(expr, rect) if rect else None
+    rect = ctx.text_rect(m.group(1)) if m else ({} if own is not None else None)
+    val = eval_rect_expr(expr, rect, own, scalar) if rect is not None else None
     if val is None:
         ctx.notes.warn(f"'{L.name}': expression on {what} not understood; using its (possibly stale) stored value")
         return None
-    ctx.notes.warn(f"'{L.name}': {what} evaluated from text '{m.group(1)}' bounds (estimate; tune --text-width-factor / --font-dir)")
+    if m:
+        ctx.notes.warn(f"'{L.name}': {what} evaluated from text '{m.group(1)}' bounds (estimate; tune --text-width-factor / --font-dir)")
     return val
 
 
@@ -1052,7 +1082,7 @@ def build_shape_clip(ctx: Ctx, L) -> Clip | None:
         ctx.notes.warn(f"shape layer '{L.name}': no supported geometry")
         return None
     if geom.match_name in ("ADBE Vector Shape - Rect", "ADBE Vector Shape - Ellipse") and stroke is not None and fill is None:
-        ctx.notes.warn(f"'{L.name}': stroke-only outline (rect/ellipse with Trim Paths) is not representable; skipped")
+        ctx.notes.warn(f"'{L.name}': stroke-only outline (rect/ellipse) is not representable; skipped")
         return None
     if len(list(p for p in contents.properties if p.match_name.startswith("ADBE Vector Shape"))) > 1:
         ctx.notes.warn(f"shape layer '{L.name}': only the first shape in the group is converted")
@@ -1125,10 +1155,7 @@ def build_shape_clip(ctx: Ctx, L) -> Clip | None:
         return vector_group_matrix(gxf, t)
 
     def group_rs(t):
-        if gxf is None:
-            return 0.0, 1.0, 1.0
-        sc = find(gxf, "ADBE Vector Scale").value_at_time(t)
-        return find(gxf, "ADBE Vector Rotation").value_at_time(t), sc[0] / 100.0, sc[1] / 100.0
+        return vector_group_rs(gxf, t)
 
     def trim_range(t):
         s, e, off = 0.0, 1.0, 0.0  # visible fraction of the path, 0..1
@@ -1189,6 +1216,117 @@ def build_shape_clip(ctx: Ctx, L) -> Clip | None:
     clip.breakpoints = bp
     clip.aspect = length / max(thickness, 1e-6)
     return clip
+
+
+def build_outline_clips(ctx: Ctx, L, D) -> list[Clip] | None:
+    """A rectangle outline (a stroke and no fill) revealed by Trim Paths, like the white line that
+    runs round a title.  The schema has no stroked path, so each side of the rectangle that the
+    line ever visits becomes a thin rect clip, drawn as the part of that side inside the trimmed
+    range.  Returns None if the layer is not such an outline, [] if it is one we cannot convert."""
+    root = find(L, "ADBE Root Vectors Group")
+    grp = next((p for p in root.properties if p.match_name == "ADBE Vector Group"), None) if root is not None else None
+    contents = find(grp, "ADBE Vectors Group")
+    gxf = find(grp, "ADBE Vector Transform Group")
+    rect = next((p for p in contents.properties if p.match_name == "ADBE Vector Shape - Rect"), None) if contents is not None else None
+    stroke = find(contents, "ADBE Vector Graphic - Stroke")
+    trims = [p for p in walk(root) if p.match_name == "ADBE Vector Filter - Trim"] if root is not None else []
+    if rect is None or stroke is None or find(contents, "ADBE Vector Graphic - Fill") is not None or not trims:
+        return None
+    # The start corner and direction below were checked against the preview for the default path
+    # direction (2); another direction or several trims would need the same check.
+    if len(trims) > 1 or int(find(rect, "ADBE Vector Shape Direction").value) != 2:
+        ctx.notes.warn(f"'{L.name}': rectangle outline with several Trim Paths or a reversed path is not converted")
+        return []
+    if float(find(rect, "ADBE Vector Rect Roundness").value) > 0:
+        ctx.notes.warn(f"'{L.name}': rounded corners of the outline are drawn square")
+
+    size_prop, pos_prop = find(rect, "ADBE Vector Rect Size"), find(rect, "ADBE Vector Rect Position")
+    size = resolve_expr_vec(ctx, size_prop, L, "Rect Size") or list(size_prop.value)
+    centre = resolve_expr_vec(ctx, pos_prop, L, "Rect Position", own=size) or list(pos_prop.value)
+    width, height = float(size[0]), float(size[1])
+    cx, cy = float(centre[0]), float(centre[1])
+    offset_prop = find(trims[0], "ADBE Vector Trim Offset")
+    offset_deg = resolve_expr_vec(ctx, offset_prop, L, "Trim Offset", own=size, scalar=True)
+    if offset_deg is None:
+        offset_deg = float(offset_prop.value)
+    perim = 2.0 * (width + height)
+    offset = (offset_deg / 360.0 * perim) % perim
+    thickness = float(find(stroke, "ADBE Vector Stroke Width").value)
+    color = rv(find(stroke, "ADBE Vector Stroke Color").value, 6)
+
+    # The path starts at the top-right corner and runs clockwise (checked against the preview).
+    hx, hy = width / 2.0, height / 2.0
+    tr, br, bl, tl = (cx + hx, cy - hy), (cx + hx, cy + hy), (cx - hx, cy + hy), (cx - hx, cy - hy)
+    sides = [("right", tr, br), ("bottom", br, bl), ("left", bl, tl), ("top", tl, tr)]
+    starts, lengths, run = [], [], 0.0
+    for _, a, b in sides:
+        starts.append(run)
+        lengths.append(math.hypot(b[0] - a[0], b[1] - a[1]))
+        run += lengths[-1]
+
+    def drawn(t):
+        """Range of the path (px from its start) that the trim leaves visible at t."""
+        ts = find(trims[0], "ADBE Vector Trim Start").value_at_time(t)
+        te = find(trims[0], "ADBE Vector Trim End").value_at_time(t)
+        return offset + min(ts, te) / 100.0 * perim, offset + max(ts, te) / 100.0 * perim
+
+    def piece(i, t):
+        """Part of side i that is drawn at t, as (start, end) px along it.  Outside the range it is
+        a zero-length piece at the end the line has not reached yet or has already left, so it
+        moves continuously."""
+        s0 = starts[i] if starts[i] + lengths[i] > offset else starts[i] + perim  # first copy the range reaches
+        lo, hi = drawn(t)
+        return min(max(lo - s0, 0.0), lengths[i]), min(max(hi - s0, 0.0), lengths[i])
+
+    t_end = min(D, L.out_point)
+    steps = max(int((t_end - L.in_point) / 0.02), 0)
+    times = sorted({L.in_point, t_end} | {L.in_point + j * 0.02 for j in range(steps + 1)}
+                   | {k for k in key_times(L) if L.in_point <= k <= t_end})
+    clips = []
+    for i, (name, a, b) in enumerate(sides):
+        n = lengths[i]
+        if n <= 0 or not any(piece(i, t)[1] - piece(i, t)[0] > 1e-6 for t in times):
+            continue
+        ux, uy = (b[0] - a[0]) / n, (b[1] - a[1]) / n          # along the side, in the group's space
+        horizontal = abs(ux) > abs(uy)
+        clip = Clip("shape", L)
+        clip.role = f"outline_{name}"
+        clip.default_color = color
+        clip.source = {
+            "type": "shape", "shapeType": "rect",
+            "width": r(n if horizontal else thickness, 3), "height": r(thickness if horizontal else n, 3),
+            "cornerRadius": 0,
+            "fillColor": {"r": color[0], "g": color[1], "b": color[2], "a": color[3] if len(color) > 3 else 1.0},
+            "strokeWidth": 0,
+        }
+        clip.size = None
+        clip.aspect = 1.0   # not a divider rule, whatever its proportions
+
+        def state(t, i=i, a=a, ux=ux, uy=uy, n=n, horizontal=horizontal):
+            p0, p1 = piece(i, t)
+            mid = (p0 + p1) / 2.0
+            m = mmul(ctx.world(L, t), vector_group_matrix(gxf, t))
+            x, y = ctx.to_center(*mapply(m, a[0] + ux * mid, a[1] + uy * mid))
+            grot, gsx, gsy = vector_group_rs(gxf, t)
+            rot, sx, sy = ctx.decomposed(L, t, extra_rot=grot, extra_scale=(gsx, gsy))
+            frac = max((p1 - p0) / n, ctx.args.min_scale)
+            scale = [sx * frac, sy] if horizontal else [sx, sy * frac]
+            vis = 1.0 if (L.in_point - 1e-9 <= t <= L.out_point + 1e-9) else 0.0
+            op = ctx.tvals(L, t)[4] / 100.0
+            return {"pos": [x, y], "rot": rot, "scale": scale, "opacity": op * vis * (1.0 if p1 - p0 > 1e-6 else 0.0)}
+
+        def box(t, i=i, a=a, ux=ux, uy=uy):
+            p0, p1 = piece(i, t)
+            m = mmul(ctx.world(L, t), vector_group_matrix(gxf, t))
+            half = thickness / 2.0
+            pts = [(a[0] + ux * s - uy * d, a[1] + uy * s + ux * d) for s, d in ((p0, -half), (p1, -half), (p1, half), (p0, half))]
+            return [ctx.to_center(*mapply(m, *q)) for q in pts]
+
+        clip.state = state
+        clip.box_fn = box
+        clip.breakpoints = ctx.all_keytimes(L) + [L.in_point, max(L.in_point - 1e-6, 0.0)]
+        clips.append(clip)
+    return clips
 
 
 def build_solid_clip(ctx: Ctx, L) -> Clip | None:
@@ -1339,6 +1477,10 @@ def convert(path: Path, args) -> tuple[dict, list[str]]:
             elif kind == "ShapeLayer":
                 if id(L) in matte_for:
                     notes.warn(f"'{L.name}': matte on a shape layer ignored")
+                outline = build_outline_clips(ctx, L, D)
+                if outline is not None:
+                    clips.extend(outline)
+                    continue
                 c = build_shape_clip(ctx, L)
             elif kind == "AVLayer" and getattr(L.source, "main_source", None) is not None and type(L.source.main_source).__name__ == "SolidSource":
                 c = build_solid_clip(ctx, L)
@@ -1376,10 +1518,12 @@ def convert(path: Path, args) -> tuple[dict, list[str]]:
                 c.role = "eyebrow" if i == 0 else f"eyebrow{i + 1}"
             for i, c in enumerate(below):
                 c.role = "subtitle" if i == 0 else f"subtitle{i + 1}"
-        for i, c in enumerate(shapes):
+        for i, c in enumerate(c for c in shapes if c.role is None):   # outline sides have their role already
             c.role = "divider" if (getattr(c, "aspect", 1) >= 10 and sum(1 for s in shapes if s.aspect >= 10) == 1) else (
                 "divider" if getattr(c, "aspect", 1) >= 10 and i == 0 else f"shape{i + 1}")
-        role_name = {"title": "Main Title Text", "eyebrow": "Eyebrow Text", "subtitle": "Subtitle Text", "divider": "Divider Line"}
+        role_name = {"title": "Main Title Text", "eyebrow": "Eyebrow Text", "subtitle": "Subtitle Text", "divider": "Divider Line",
+                     "outline_top": "Outline Top", "outline_right": "Outline Right",
+                     "outline_bottom": "Outline Bottom", "outline_left": "Outline Left"}
         ordered = shapes + sorted(texts, key=lambda c: c.state(D)["pos"][1] if c.role != "title" else 0)
         order_key = {"eyebrow": 0, "title": 1, "subtitle": 2}
         ordered = shapes + sorted(texts, key=lambda c: (order_key.get(re.sub(r"\d+$", "", c.role), 3), c.role))
