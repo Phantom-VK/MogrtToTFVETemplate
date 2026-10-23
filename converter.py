@@ -771,6 +771,19 @@ def resolve_color(ctx: Ctx, L, comp):
     return None, None
 
 
+def vector_group_matrix(gxf, t):
+    """Matrix of a shape group's own transform (its Position, Anchor, Scale and Rotation)."""
+    if gxf is None:
+        return IDENT
+    pp, ap = find(gxf, "ADBE Vector Position"), find(gxf, "ADBE Vector Anchor")
+    pos, anc = pp.value_at_time(t), ap.value_at_time(t)
+    if getattr(pp, "expression_enabled", False) and "anchorPoint" in (getattr(pp, "expression", "") or ""):
+        pos = anc  # position is slaved to the anchor -> no net offset
+    sc = find(gxf, "ADBE Vector Scale").value_at_time(t)
+    rot = find(gxf, "ADBE Vector Rotation").value_at_time(t)
+    return trs(pos, rot, (sc[0] / 100.0, sc[1] / 100.0), anc)
+
+
 def matte_local_poly(ctx, L, t):
     """Matte outline in the matte layer's own space (a rectangle).  Solids use their
     size; shape layers use the bounding box of their first rect / path / ellipse,
@@ -794,19 +807,17 @@ def matte_local_poly(ctx, L, t):
             x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
         else:
             tag = "Rect" if geom.match_name.endswith("Rect") else "Ellipse"
-            size = find(geom, f"ADBE Vector {tag} Size").value_at_time(t)
-            c = find(geom, f"ADBE Vector {tag} Position").value_at_time(t)
+            size_prop = find(geom, f"ADBE Vector {tag} Size")
+            pos_prop = find(geom, f"ADBE Vector {tag} Position")
+            # An expression-driven rect (sized from a text layer) has a stale stored value.
+            size = resolve_expr_vec(ctx, size_prop, L, f"{tag} Size") or size_prop.value_at_time(t)
+            c = resolve_expr_vec(ctx, pos_prop, L, f"{tag} Position") or pos_prop.value_at_time(t)
             x0, x1 = c[0] - size[0] / 2, c[0] + size[0] / 2
             y0, y1 = c[1] - size[1] / 2, c[1] + size[1] / 2
         pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
         gxf = find(grp, "ADBE Vector Transform Group")
-        if gxf is not None:
-            pos = find(gxf, "ADBE Vector Position").value_at_time(t)
-            anc = find(gxf, "ADBE Vector Anchor").value_at_time(t)
-            sc = find(gxf, "ADBE Vector Scale").value_at_time(t)
-            rot = find(gxf, "ADBE Vector Rotation").value_at_time(t)
-            m = trs(pos, rot, (sc[0] / 100.0, sc[1] / 100.0), anc)
-            pts = [mapply(m, *q) for q in pts]
+        m = vector_group_matrix(gxf, t)
+        pts = [mapply(m, *q) for q in pts]
         return pts
     except Exception as e:  # unsupported matte geometry -> ignore the matte
         ctx.notes.warn(f"track matte '{L.name}': geometry not readable ({type(e).__name__}); matte ignored")
@@ -925,6 +936,13 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
         m = ctx_.world(L, t)
         return [mapply(m, *p) for p in rect]
 
+    # A matte hides glyphs, not the empty room under the baseline that the editor's box includes,
+    # so how much of the text it covers is judged on the glyphs' own rect.
+    tr = ctx.text_rect(L.name)
+    ink_rect = ([(tr["left"], tr["top"]), (tr["left"] + tr["width"], tr["top"]),
+                 (tr["left"] + tr["width"], tr["top"] + tr["height"]), (tr["left"], tr["top"] + tr["height"])]
+                if tr else rect)
+
     def frac(t):
         if matte_layer is None:
             return 1.0
@@ -933,7 +951,8 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
             return 1.0
         mm = ctx_.world(matte_layer, t)
         mp = [mapply(mm, *p) for p in local]
-        sub = world_rect(t)
+        m = ctx_.world(L, t)
+        sub = [mapply(m, *p) for p in ink_rect]
         a = abs(poly_area(sub))
         if a < 1e-9:
             return 1.0
@@ -1101,15 +1120,7 @@ def build_shape_clip(ctx: Ctx, L) -> Clip | None:
     ctx_ = ctx
 
     def group_matrix(t):
-        if gxf is None:
-            return IDENT
-        pp, ap = find(gxf, "ADBE Vector Position"), find(gxf, "ADBE Vector Anchor")
-        pos, anc = pp.value_at_time(t), ap.value_at_time(t)
-        if getattr(pp, "expression_enabled", False) and "anchorPoint" in (getattr(pp, "expression", "") or ""):
-            pos = anc  # position is slaved to the anchor -> no net offset
-        sc = find(gxf, "ADBE Vector Scale").value_at_time(t)
-        rot = find(gxf, "ADBE Vector Rotation").value_at_time(t)
-        return trs(pos, rot, (sc[0] / 100.0, sc[1] / 100.0), anc)
+        return vector_group_matrix(gxf, t)
 
     def group_rs(t):
         if gxf is None:

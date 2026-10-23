@@ -155,6 +155,13 @@ class PreviewGeometryTest(unittest.TestCase):
         self.assertAlmostEqual(baseline, 859.5, delta=2.0)  # ink bottom of "JON DEE" in the preview
         self.assertAlmostEqual(left, 306.7, delta=2.0)  # preview ink starts at 309, minus the 2.3 px side bearing
 
+    def test_text_is_solid_once_revealed(self):
+        # The preview shows both texts at full strength from about 1.5 s on. The reveal matte covers
+        # the whole text by then, so no part of the text may be faded out.
+        for clip_id in ("clip_title", "clip_subtitle"):
+            opacity = value_at(clip_named(self.tpl, clip_id)["properties"].get("opacity"), T, 1.0)
+            self.assertGreater(opacity, 0.98, clip_id)
+
     def test_subtitle_baseline_and_left_edge(self):
         baseline, left = self._baseline_and_left("clip_subtitle")
         self.assertAlmostEqual(baseline, 902.7, delta=2.0)
