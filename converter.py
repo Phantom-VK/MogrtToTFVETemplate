@@ -41,7 +41,9 @@ KNOWN FIDELITY LIMITS (also printed as warnings per file)
     - position is in px relative to the centre of the 1920x1080 AE comp,
       +y is DOWN, rotation is degrees clockwise-positive;
     - a text clip's position/rotation/scale pivot is the bottom-centre of its box
-      (verticalAnchor "bottom"), box bottom == text baseline  (--descent-ratio);
+      (verticalAnchor "bottom"), and the box bottom is a font-dependent distance below the
+      text baseline (EDITOR_FONTS, --descent-ratio);
+    - text is drawn at text.fontSize with scale 1 (the editor applies a text clip's scale twice);
 * Easing: AE's bezier ease is reproduced by densely sampled linear keyframes
   (adaptive, <=0.2px / <=0.2deg / <=0.15% scale error), so the result does not
   depend on how the editor interprets easeIn/easeOut handles.
