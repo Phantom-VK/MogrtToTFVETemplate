@@ -709,6 +709,17 @@ def matte_local_poly(ctx, L, t):
         return None
 
 
+def static_uniform_scale(ctx: Ctx, L, D):
+    """Scale of a layer's whole transform chain (wrappers and canvas fit included) if it is the
+    same positive number on both axes at every key time, else None."""
+    times = sorted({t for t in ctx.all_keytimes(L) if 0 <= t <= D} | {0.0, D})
+    scales = [ctx.decomposed(L, t)[1:] for t in times]
+    sx = scales[0][0]
+    if sx > 0 and all(abs(a - sx) < 1e-6 and abs(b - sx) < 1e-6 for a, b in scales):
+        return sx
+    return None
+
+
 def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
     tp = find(L, "ADBE Text Properties")
     dprop = find(tp, "ADBE Text Document")
@@ -765,6 +776,15 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
     if color is None:
         fc = list(doc.fill_color) + [1.0]
         color = rv(fc[:3] + [1.0], 6)
+    # The editor draws text at text.fontSize x the clip's scale and then applies that scale to the
+    # picture again, so a text clip's size goes in text.fontSize and its scale stays at 1.  Only a
+    # scale that never changes can be folded in; an animated one is kept (and drawn too small).
+    fold = static_uniform_scale(ctx, L, D)
+    if fold is None and any(abs(v - 1.0) > 1e-6 for t in (0.0, D) for v in ctx.decomposed(L, t)[1:]):
+        ctx.notes.warn(f"'{L.name}': animated or non-uniform scale on text cannot be folded into the "
+                       f"font size; the editor applies it twice, so the text is drawn too small")
+    k = fold or 1.0
+    size, tracking_px = size * k, tracking_px * k
     clip = Clip("text", L)
     clip.size, clip.family = size, fam
     clip.default_color = color
@@ -814,7 +834,8 @@ def build_text_clip(ctx: Ctx, L, matte_layer, matte_type, D) -> Clip | None:
         rot, sx, sy = ctx_.decomposed(L, t)
         op = ctx_.tvals(L, t)[4] / 100.0
         vis = 1.0 if (L.in_point - 1e-9 <= t <= L.out_point + 1e-9) else 0.0
-        return {"pos": [x, y], "rot": rot, "scale": [sx, sy], "opacity": op * vis * (frac(t) if vis else 0.0)}
+        return {"pos": [x, y], "rot": rot, "scale": [1.0, 1.0] if fold else [sx, sy],
+                "opacity": op * vis * (frac(t) if vis else 0.0)}
 
     clip.state = state
     clip.box_fn = lambda t: [ctx_.to_center(*p) for p in world_rect(t)]
