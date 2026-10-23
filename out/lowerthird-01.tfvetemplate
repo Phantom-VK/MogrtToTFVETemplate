@@ -7,7 +7,7 @@
   "category": "Titles",
   "description": "Converted from mixkit-305.mogrt",
   "author": "TheFreeVideoEditor",
-  "createdAt": 1792770419557,
+  "createdAt": 1792775366157,
   "duration": 5000000,
   "responsiveTiming": {
     "introDuration": 1733333,
@@ -15,7 +15,7 @@
   },
   "bounds": {
     "width": 1460,
-    "height": 900,
+    "height": 880,
     "originX": 0,
     "originY": 0
   },
@@ -40,8 +40,8 @@
             "type": "text",
             "text": "JON DEE",
             "style": {
-              "fontFamily": "Acumin Pro",
-              "fontWeight": "700",
+              "fontFamily": "Bebas Neue",
+              "fontWeight": "400",
               "alignment": "left",
               "letterSpacing": 0.0
             },
@@ -60,7 +60,7 @@
                   "time": 0,
                   "value": [
                     -550.0,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -68,7 +68,7 @@
                   "time": 116667,
                   "value": [
                     -550.0,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -76,7 +76,7 @@
                   "time": 141927,
                   "value": [
                     -550.223,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -84,7 +84,7 @@
                   "time": 167188,
                   "value": [
                     -550.988,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -92,7 +92,7 @@
                   "time": 192448,
                   "value": [
                     -552.466,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -100,7 +100,7 @@
                   "time": 217708,
                   "value": [
                     -554.888,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -108,7 +108,7 @@
                   "time": 242969,
                   "value": [
                     -558.492,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -116,7 +116,7 @@
                   "time": 268229,
                   "value": [
                     -563.398,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -124,7 +124,7 @@
                   "time": 293490,
                   "value": [
                     -569.369,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -132,7 +132,7 @@
                   "time": 344010,
                   "value": [
                     -582.004,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -140,7 +140,7 @@
                   "time": 369271,
                   "value": [
                     -587.745,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -148,7 +148,7 @@
                   "time": 394531,
                   "value": [
                     -592.918,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -156,7 +156,7 @@
                   "time": 419792,
                   "value": [
                     -597.556,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -164,7 +164,7 @@
                   "time": 445052,
                   "value": [
                     -601.72,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -172,7 +172,7 @@
                   "time": 470312,
                   "value": [
                     -605.477,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -180,7 +180,7 @@
                   "time": 520833,
                   "value": [
                     -611.996,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -188,7 +188,7 @@
                   "time": 571354,
                   "value": [
                     -617.466,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -196,7 +196,7 @@
                   "time": 621875,
                   "value": [
                     -622.132,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -204,7 +204,7 @@
                   "time": 672396,
                   "value": [
                     -626.162,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -212,7 +212,7 @@
                   "time": 722917,
                   "value": [
                     -629.669,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -220,7 +220,7 @@
                   "time": 823958,
                   "value": [
                     -635.463,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -228,7 +228,7 @@
                   "time": 925000,
                   "value": [
                     -640.001,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -236,7 +236,7 @@
                   "time": 1026042,
                   "value": [
                     -643.567,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -244,7 +244,7 @@
                   "time": 1127083,
                   "value": [
                     -646.368,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -252,7 +252,7 @@
                   "time": 1228125,
                   "value": [
                     -648.548,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -260,7 +260,7 @@
                   "time": 1329167,
                   "value": [
                     -650.204,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -268,7 +268,7 @@
                   "time": 1531250,
                   "value": [
                     -652.232,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -276,7 +276,7 @@
                   "time": 1733333,
                   "value": [
                     -652.896,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 },
@@ -284,16 +284,10 @@
                   "time": 5000000,
                   "value": [
                     -652.9,
-                    362.44
+                    369.615
                   ],
                   "interpolation": "linear"
                 }
-              ]
-            },
-            "scale": {
-              "value": [
-                0.5,
-                0.5
               ]
             },
             "opacity": {
@@ -304,64 +298,69 @@
                   "interpolation": "linear"
                 },
                 {
-                  "time": 255599,
-                  "value": 0.0,
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 268229,
-                  "value": 0.042,
+                  "time": 302962,
+                  "value": 0.0023,
                   "interpolation": "linear"
                 },
                 {
                   "time": 318750,
-                  "value": 0.2408,
+                  "value": 0.0659,
                   "interpolation": "linear"
                 },
                 {
                   "time": 369271,
-                  "value": 0.4332,
+                  "value": 0.2557,
                   "interpolation": "linear"
                 },
                 {
                   "time": 419792,
-                  "value": 0.5908,
+                  "value": 0.4112,
                   "interpolation": "linear"
                 },
                 {
                   "time": 470312,
-                  "value": 0.7181,
+                  "value": 0.5367,
                   "interpolation": "linear"
                 },
                 {
                   "time": 520833,
-                  "value": 0.8228,
+                  "value": 0.64,
                   "interpolation": "linear"
                 },
                 {
                   "time": 571354,
-                  "value": 0.9107,
+                  "value": 0.7267,
                   "interpolation": "linear"
                 },
                 {
                   "time": 621875,
-                  "value": 0.9857,
+                  "value": 0.8007,
                   "interpolation": "linear"
                 },
                 {
-                  "time": 634505,
-                  "value": 0.9967,
+                  "time": 722917,
+                  "value": 0.9202,
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 798698,
+                  "value": 0.9911,
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 823958,
+                  "value": 1.0,
                   "interpolation": "linear"
                 },
                 {
                   "time": 5000000,
-                  "value": 0.9967,
+                  "value": 1.0,
                   "interpolation": "linear"
                 }
               ]
             },
             "text.fontSize": {
-              "value": 287.0
+              "value": 143.5
             },
             "text.letterSpacing": {
               "value": 0.0
@@ -397,8 +396,8 @@
           "source": {
             "type": "shape",
             "shapeType": "rect",
-            "width": 1500.11,
-            "height": 297.0,
+            "width": 873.302,
+            "height": 216.64,
             "cornerRadius": 0.0,
             "fillColor": {
               "r": 1.0,
@@ -415,7 +414,7 @@
                   "time": 0,
                   "value": [
                     -663.0,
-                    287.926
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
@@ -423,423 +422,327 @@
                   "time": 116667,
                   "value": [
                     -663.0,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 129297,
-                  "value": [
-                    -662.802,
-                    287.926
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 141927,
                   "value": [
-                    -662.17,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 154557,
-                  "value": [
-                    -661.041,
-                    287.926
+                    -662.513,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 167188,
                   "value": [
-                    -659.342,
-                    287.926
+                    -660.855,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 179818,
                   "value": [
-                    -656.986,
-                    287.926
+                    -659.473,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 192448,
                   "value": [
-                    -653.872,
-                    287.926
+                    -657.646,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 205078,
                   "value": [
-                    -649.89,
-                    287.926
+                    -655.311,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 217708,
                   "value": [
-                    -644.919,
-                    287.926
+                    -652.395,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 230339,
                   "value": [
-                    -638.846,
-                    287.926
+                    -648.833,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 242969,
                   "value": [
-                    -631.578,
-                    287.926
+                    -644.57,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 255599,
                   "value": [
-                    -623.08,
-                    287.926
+                    -639.586,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 268229,
                   "value": [
-                    -613.409,
-                    287.926
+                    -633.914,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 280859,
                   "value": [
-                    -602.731,
-                    287.926
+                    -627.651,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 293490,
                   "value": [
-                    -591.321,
-                    287.926
+                    -620.959,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 318750,
                   "value": [
-                    -567.612,
-                    287.926
+                    -607.053,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 344010,
                   "value": [
-                    -544.539,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 356641,
-                  "value": [
-                    -533.651,
-                    287.926
+                    -593.52,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 369271,
                   "value": [
-                    -523.283,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 381901,
-                  "value": [
-                    -513.447,
-                    287.926
+                    -581.053,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 394531,
                   "value": [
-                    -504.132,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 407161,
-                  "value": [
-                    -495.315,
-                    287.926
+                    -569.821,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 419792,
                   "value": [
-                    -486.967,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 432422,
-                  "value": [
-                    -479.057,
-                    287.926
+                    -559.753,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 445052,
                   "value": [
-                    -471.552,
-                    287.926
+                    -550.712,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 470312,
                   "value": [
-                    -457.642,
-                    287.926
+                    -542.553,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 495573,
                   "value": [
-                    -445.022,
-                    287.926
+                    -535.151,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 520833,
                   "value": [
-                    -433.513,
-                    287.926
+                    -528.401,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 546094,
                   "value": [
-                    -422.966,
-                    287.926
+                    -522.215,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 571354,
                   "value": [
-                    -413.261,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 596615,
-                  "value": [
-                    -404.296,
-                    287.926
+                    -516.523,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 621875,
                   "value": [
-                    -395.989,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 647135,
-                  "value": [
-                    -388.268,
-                    287.926
+                    -506.392,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 672396,
                   "value": [
-                    -381.076,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 697656,
-                  "value": [
-                    -374.361,
-                    287.926
+                    -497.646,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 722917,
                   "value": [
-                    -368.081,
-                    287.926
+                    -490.024,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 773438,
                   "value": [
-                    -356.68,
-                    287.926
+                    -483.337,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 823958,
                   "value": [
-                    -346.628,
-                    287.926
+                    -477.441,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 874479,
                   "value": [
-                    -337.733,
-                    287.926
+                    -472.224,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 925000,
                   "value": [
-                    -329.847,
-                    287.926
+                    -467.599,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 975521,
                   "value": [
-                    -322.847,
-                    287.926
+                    -463.493,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1026042,
                   "value": [
-                    -316.635,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1076562,
-                  "value": [
-                    -311.128,
-                    287.926
+                    -459.85,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1127083,
                   "value": [
-                    -306.257,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1177604,
-                  "value": [
-                    -301.964,
-                    287.926
+                    -453.763,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1228125,
                   "value": [
-                    -298.198,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1278646,
-                  "value": [
-                    -294.915,
-                    287.926
+                    -449.036,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1329167,
                   "value": [
-                    -292.078,
-                    287.926
+                    -445.446,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1430208,
                   "value": [
-                    -287.61,
-                    287.926
+                    -442.826,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1531250,
                   "value": [
-                    -284.573,
-                    287.926
+                    -441.045,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1632292,
                   "value": [
-                    -282.789,
-                    287.926
+                    -439.999,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1733333,
                   "value": [
-                    -282.114,
-                    287.926
+                    -439.603,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 5000000,
                   "value": [
-                    -282.101,
-                    287.926
+                    -439.595,
+                    268.898
                   ],
                   "interpolation": "linear"
                 }
@@ -1080,8 +983,8 @@
           "source": {
             "type": "shape",
             "shapeType": "rect",
-            "width": 1560.11,
-            "height": 297.0,
+            "width": 933.302,
+            "height": 216.64,
             "cornerRadius": 0.0,
             "fillColor": {
               "r": 0.290196,
@@ -1098,431 +1001,335 @@
                   "time": 0,
                   "value": [
                     -663.45,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 12760,
-                  "value": [
-                    -663.239,
-                    287.926
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 25521,
                   "value": [
-                    -662.568,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 38281,
-                  "value": [
-                    -661.367,
-                    287.926
+                    -662.918,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 51042,
                   "value": [
-                    -659.558,
-                    287.926
+                    -661.105,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 63802,
                   "value": [
-                    -657.048,
-                    287.926
+                    -659.593,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 76562,
                   "value": [
-                    -653.727,
-                    287.926
+                    -657.592,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 89323,
                   "value": [
-                    -649.476,
-                    287.926
+                    -655.031,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 102083,
                   "value": [
-                    -644.167,
-                    287.926
+                    -651.832,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 114844,
                   "value": [
-                    -637.677,
-                    287.926
+                    -647.922,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 127604,
                   "value": [
-                    -629.913,
-                    287.926
+                    -643.245,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 140365,
                   "value": [
-                    -620.845,
-                    287.926
+                    -637.781,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 153125,
                   "value": [
-                    -610.545,
-                    287.926
+                    -631.575,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 165885,
                   "value": [
-                    -599.207,
-                    287.926
+                    -624.744,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 178646,
                   "value": [
-                    -587.136,
-                    287.926
+                    -617.472,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 204167,
                   "value": [
-                    -562.201,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 216927,
-                  "value": [
-                    -549.941,
-                    287.926
+                    -602.449,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 229688,
                   "value": [
-                    -538.09,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 242448,
-                  "value": [
-                    -526.75,
-                    287.926
+                    -587.922,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 255208,
                   "value": [
-                    -515.966,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 267969,
-                  "value": [
-                    -505.747,
-                    287.926
+                    -574.593,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 280729,
                   "value": [
-                    -496.076,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 293490,
-                  "value": [
-                    -486.928,
-                    287.926
+                    -562.609,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 306250,
                   "value": [
-                    -478.27,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 319010,
-                  "value": [
-                    -470.067,
-                    287.926
+                    -551.881,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 331771,
                   "value": [
-                    -462.287,
-                    287.926
+                    -542.252,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 357292,
                   "value": [
-                    -447.87,
-                    287.926
+                    -533.566,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 382812,
                   "value": [
-                    -434.793,
-                    287.926
+                    -525.687,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 408333,
                   "value": [
-                    -422.87,
-                    287.926
+                    -518.503,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 433854,
                   "value": [
-                    -411.945,
-                    287.926
+                    -511.921,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 459375,
                   "value": [
-                    -401.894,
-                    287.926
+                    -505.865,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 484896,
                   "value": [
-                    -392.611,
-                    287.926
+                    -500.273,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 510417,
                   "value": [
-                    -384.01,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 535938,
-                  "value": [
-                    -376.019,
-                    287.926
+                    -495.091,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 561458,
                   "value": [
-                    -368.576,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 586979,
-                  "value": [
-                    -361.629,
-                    287.926
+                    -485.792,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 612500,
                   "value": [
-                    -355.134,
-                    287.926
+                    -477.693,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 663542,
                   "value": [
-                    -343.348,
-                    287.926
+                    -470.592,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 714583,
                   "value": [
-                    -332.964,
-                    287.926
+                    -464.336,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 765625,
                   "value": [
-                    -323.784,
-                    287.926
+                    -458.805,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 816667,
                   "value": [
-                    -315.653,
-                    287.926
+                    -453.907,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 867708,
                   "value": [
-                    -308.445,
-                    287.926
+                    -449.564,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 918750,
                   "value": [
-                    -302.056,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 969792,
-                  "value": [
-                    -296.402,
-                    287.926
+                    -445.715,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1020833,
                   "value": [
-                    -291.41,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1071875,
-                  "value": [
-                    -287.019,
-                    287.926
+                    -439.3,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1122917,
                   "value": [
-                    -283.177,
-                    287.926
-                  ],
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1173958,
-                  "value": [
-                    -279.839,
-                    287.926
+                    -434.34,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1225000,
                   "value": [
-                    -276.966,
-                    287.926
+                    -430.598,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1327083,
                   "value": [
-                    -272.477,
-                    287.926
+                    -427.893,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1429167,
                   "value": [
-                    -269.478,
-                    287.926
+                    -426.087,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1531250,
                   "value": [
-                    -267.786,
-                    287.926
+                    -425.067,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1633333,
                   "value": [
-                    -267.251,
-                    287.926
+                    -424.745,
+                    268.898
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 5000000,
                   "value": [
-                    -267.251,
-                    287.926
+                    -424.745,
+                    268.898
                   ],
                   "interpolation": "linear"
                 }
@@ -1735,7 +1542,7 @@
             "type": "text",
             "text": "ART DEPARTMENT ASSISTANT",
             "style": {
-              "fontFamily": "Acumin Pro",
+              "fontFamily": "Bebas Neue",
               "fontWeight": "400",
               "alignment": "left",
               "letterSpacing": 0.0
@@ -1755,7 +1562,7 @@
                   "time": 0,
                   "value": [
                     -1060.06,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1763,7 +1570,7 @@
                   "time": 12773,
                   "value": [
                     -1059.877,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1771,7 +1578,7 @@
                   "time": 25546,
                   "value": [
                     -1059.285,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1779,7 +1586,7 @@
                   "time": 38319,
                   "value": [
                     -1058.227,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1787,7 +1594,7 @@
                   "time": 51093,
                   "value": [
                     -1056.647,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1795,7 +1602,7 @@
                   "time": 63866,
                   "value": [
                     -1054.472,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1803,7 +1610,7 @@
                   "time": 76639,
                   "value": [
                     -1051.616,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1811,7 +1618,7 @@
                   "time": 89412,
                   "value": [
                     -1047.973,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1819,7 +1626,7 @@
                   "time": 102185,
                   "value": [
                     -1043.458,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1827,7 +1634,7 @@
                   "time": 114958,
                   "value": [
                     -1037.942,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1835,7 +1642,7 @@
                   "time": 127731,
                   "value": [
                     -1031.359,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1843,7 +1650,7 @@
                   "time": 140504,
                   "value": [
                     -1023.629,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1851,7 +1658,7 @@
                   "time": 153278,
                   "value": [
                     -1014.721,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1859,7 +1666,7 @@
                   "time": 166051,
                   "value": [
                     -1004.751,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1867,7 +1674,7 @@
                   "time": 178824,
                   "value": [
                     -993.865,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1875,7 +1682,7 @@
                   "time": 204370,
                   "value": [
                     -970.361,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1883,7 +1690,7 @@
                   "time": 229916,
                   "value": [
                     -946.453,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1891,7 +1698,7 @@
                   "time": 242690,
                   "value": [
                     -934.905,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1899,7 +1706,7 @@
                   "time": 255463,
                   "value": [
                     -923.753,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1907,7 +1714,7 @@
                   "time": 268236,
                   "value": [
                     -913.11,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1915,7 +1722,7 @@
                   "time": 281009,
                   "value": [
                     -902.943,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1923,7 +1730,7 @@
                   "time": 293782,
                   "value": [
                     -893.3,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1931,7 +1738,7 @@
                   "time": 306555,
                   "value": [
                     -884.139,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1939,7 +1746,7 @@
                   "time": 319328,
                   "value": [
                     -875.414,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1947,7 +1754,7 @@
                   "time": 332101,
                   "value": [
                     -867.143,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1955,7 +1762,7 @@
                   "time": 357648,
                   "value": [
                     -851.763,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1963,7 +1770,7 @@
                   "time": 383194,
                   "value": [
                     -837.787,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1971,7 +1778,7 @@
                   "time": 408740,
                   "value": [
                     -825.025,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1979,7 +1786,7 @@
                   "time": 434286,
                   "value": [
                     -813.333,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1987,7 +1794,7 @@
                   "time": 459833,
                   "value": [
                     -802.549,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -1995,7 +1802,7 @@
                   "time": 485379,
                   "value": [
                     -792.577,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2003,7 +1810,7 @@
                   "time": 510925,
                   "value": [
                     -783.326,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2011,7 +1818,7 @@
                   "time": 536472,
                   "value": [
                     -774.729,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2019,7 +1826,7 @@
                   "time": 562018,
                   "value": [
                     -766.698,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2027,7 +1834,7 @@
                   "time": 587564,
                   "value": [
                     -759.19,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2035,7 +1842,7 @@
                   "time": 613110,
                   "value": [
                     -752.155,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2043,7 +1850,7 @@
                   "time": 638657,
                   "value": [
                     -745.553,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2051,7 +1858,7 @@
                   "time": 664203,
                   "value": [
                     -739.356,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2059,7 +1866,7 @@
                   "time": 715295,
                   "value": [
                     -728.013,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2067,7 +1874,7 @@
                   "time": 766388,
                   "value": [
                     -717.932,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2075,7 +1882,7 @@
                   "time": 817480,
                   "value": [
                     -708.936,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2083,7 +1890,7 @@
                   "time": 868573,
                   "value": [
                     -700.896,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2091,7 +1898,7 @@
                   "time": 919666,
                   "value": [
                     -693.71,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2099,7 +1906,7 @@
                   "time": 970758,
                   "value": [
                     -687.279,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2107,7 +1914,7 @@
                   "time": 1021851,
                   "value": [
                     -681.534,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2115,7 +1922,7 @@
                   "time": 1072943,
                   "value": [
                     -676.405,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2123,7 +1930,7 @@
                   "time": 1124036,
                   "value": [
                     -671.843,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2131,7 +1938,7 @@
                   "time": 1175128,
                   "value": [
                     -667.797,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2139,7 +1946,7 @@
                   "time": 1226221,
                   "value": [
                     -664.226,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2147,7 +1954,7 @@
                   "time": 1277313,
                   "value": [
                     -661.098,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2155,7 +1962,7 @@
                   "time": 1328406,
                   "value": [
                     -658.377,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2163,7 +1970,7 @@
                   "time": 1430591,
                   "value": [
                     -654.053,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2171,7 +1978,7 @@
                   "time": 1532776,
                   "value": [
                     -651.063,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2179,7 +1986,7 @@
                   "time": 1634961,
                   "value": [
                     -649.247,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2187,7 +1994,7 @@
                   "time": 1733333,
                   "value": [
                     -648.503,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 },
@@ -2195,16 +2002,10 @@
                   "time": 5000000,
                   "value": [
                     -648.455,
-                    380.54
+                    375.459
                   ],
                   "interpolation": "linear"
                 }
-              ]
-            },
-            "scale": {
-              "value": [
-                0.955,
-                0.955
               ]
             },
             "opacity": {
@@ -2215,79 +2016,84 @@
                   "interpolation": "linear"
                 },
                 {
-                  "time": 370421,
+                  "time": 491766,
                   "value": 0.0,
                   "interpolation": "linear"
                 },
                 {
-                  "time": 408740,
-                  "value": 0.0681,
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 459833,
-                  "value": 0.1471,
+                  "time": 498152,
+                  "value": 0.0065,
                   "interpolation": "linear"
                 },
                 {
                   "time": 510925,
-                  "value": 0.2136,
+                  "value": 0.0432,
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 562018,
+                  "value": 0.1763,
                   "interpolation": "linear"
                 },
                 {
                   "time": 613110,
-                  "value": 0.3197,
+                  "value": 0.2912,
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 664203,
+                  "value": 0.3913,
                   "interpolation": "linear"
                 },
                 {
                   "time": 715295,
-                  "value": 0.4003,
+                  "value": 0.4791,
                   "interpolation": "linear"
                 },
                 {
                   "time": 817480,
-                  "value": 0.4631,
+                  "value": 0.6248,
                   "interpolation": "linear"
                 },
                 {
                   "time": 919666,
-                  "value": 0.5125,
+                  "value": 0.739,
                   "interpolation": "linear"
                 },
                 {
                   "time": 1021851,
-                  "value": 0.5514,
+                  "value": 0.8287,
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 1124036,
+                  "value": 0.8985,
                   "interpolation": "linear"
                 },
                 {
                   "time": 1226221,
-                  "value": 0.6051,
+                  "value": 0.952,
                   "interpolation": "linear"
                 },
                 {
-                  "time": 1430591,
-                  "value": 0.6349,
+                  "time": 1328406,
+                  "value": 0.9915,
                   "interpolation": "linear"
                 },
                 {
-                  "time": 1634961,
-                  "value": 0.6468,
-                  "interpolation": "linear"
-                },
-                {
-                  "time": 1733333,
-                  "value": 0.648,
+                  "time": 1379498,
+                  "value": 1.0,
                   "interpolation": "linear"
                 },
                 {
                   "time": 5000000,
-                  "value": 0.6481,
+                  "value": 1.0,
                   "interpolation": "linear"
                 }
               ]
             },
             "text.fontSize": {
-              "value": 38.0
+              "value": 36.29
             },
             "text.letterSpacing": {
               "value": 0.0
@@ -2323,8 +2129,8 @@
           "source": {
             "type": "shape",
             "shapeType": "rect",
-            "width": 793.37,
-            "height": 48.0,
+            "width": 532.272,
+            "height": 37.36,
             "cornerRadius": 0.0,
             "fillColor": {
               "r": 0.290196,
@@ -2341,319 +2147,407 @@
                   "time": 0,
                   "value": [
                     -80.869,
-                    355.541
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 25546,
                   "value": [
-                    -81.139,
-                    355.541
+                    -81.305,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 51093,
                   "value": [
-                    -82.034,
-                    355.541
+                    -82.747,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 76639,
                   "value": [
-                    -83.711,
-                    355.541
+                    -85.449,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 89412,
+                  "value": [
+                    -87.382,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 102185,
                   "value": [
-                    -86.387,
-                    355.541
+                    -89.764,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 114958,
+                  "value": [
+                    -92.669,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 127731,
                   "value": [
-                    -90.349,
-                    355.541
+                    -96.15,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 140504,
                   "value": [
-                    -92.919,
-                    355.541
+                    -100.293,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 153278,
                   "value": [
-                    -95.957,
-                    355.541
+                    -105.19,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 166051,
                   "value": [
-                    -99.497,
-                    355.541
+                    -110.895,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 178824,
                   "value": [
-                    -103.583,
-                    355.541
+                    -117.482,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 191597,
                   "value": [
-                    -108.247,
-                    355.541
+                    -125.0,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 204370,
                   "value": [
-                    -113.447,
-                    355.541
+                    -133.383,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 217143,
+                  "value": [
+                    -142.571,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 229916,
                   "value": [
-                    -125.206,
-                    355.541
+                    -152.338,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 255463,
                   "value": [
-                    -137.863,
-                    355.541
+                    -172.739,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 281009,
                   "value": [
-                    -150.283,
-                    355.541
+                    -192.76,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 293782,
+                  "value": [
+                    -202.233,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 306555,
                   "value": [
-                    -161.76,
-                    355.541
+                    -211.261,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 319328,
+                  "value": [
+                    -219.843,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 332101,
                   "value": [
-                    -172.107,
-                    355.541
+                    -227.939,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 344875,
+                  "value": [
+                    -235.607,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 357648,
                   "value": [
-                    -181.346,
-                    355.541
+                    -242.832,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 383194,
                   "value": [
-                    -189.603,
-                    355.541
+                    -256.141,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 408740,
                   "value": [
-                    -197.012,
-                    355.541
+                    -268.084,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 434286,
                   "value": [
-                    -203.69,
-                    355.541
+                    -278.848,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 459833,
                   "value": [
-                    -209.756,
-                    355.541
+                    -288.627,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 485379,
                   "value": [
-                    -215.287,
-                    355.541
+                    -297.543,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 510925,
                   "value": [
-                    -220.354,
-                    355.541
+                    -305.71,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 536472,
+                  "value": [
+                    -313.21,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 562018,
                   "value": [
-                    -229.306,
-                    355.541
+                    -320.141,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 587564,
+                  "value": [
+                    -326.555,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 613110,
                   "value": [
-                    -236.978,
-                    355.541
+                    -332.507,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 664203,
                   "value": [
-                    -243.607,
-                    355.541
+                    -343.193,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 715295,
                   "value": [
-                    -249.385,
-                    355.541
+                    -352.507,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 766388,
                   "value": [
-                    -254.44,
-                    355.541
+                    -360.654,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 817480,
                   "value": [
-                    -258.882,
-                    355.541
+                    -367.816,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 868573,
                   "value": [
-                    -262.792,
-                    355.541
+                    -374.118,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 919666,
                   "value": [
-                    -266.233,
-                    355.541
+                    -379.665,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 970758,
+                  "value": [
+                    -384.549,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1021851,
                   "value": [
-                    -271.924,
-                    355.541
+                    -388.837,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 1072943,
+                  "value": [
+                    -392.594,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1124036,
                   "value": [
-                    -276.284,
-                    355.541
+                    -395.866,
+                    350.46
+                  ],
+                  "interpolation": "linear"
+                },
+                {
+                  "time": 1175128,
+                  "value": [
+                    -398.7,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1226221,
                   "value": [
-                    -279.551,
-                    355.541
+                    -401.132,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1328406,
                   "value": [
-                    -281.896,
-                    355.541
+                    -404.912,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1430591,
                   "value": [
-                    -283.454,
-                    355.541
+                    -407.424,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1532776,
                   "value": [
-                    -284.33,
-                    355.541
+                    -408.835,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 1634961,
                   "value": [
-                    -284.606,
-                    355.541
+                    -409.28,
+                    350.46
                   ],
                   "interpolation": "linear"
                 },
                 {
                   "time": 5000000,
                   "value": [
-                    -284.606,
-                    355.541
+                    -409.28,
+                    350.46
                   ],
                   "interpolation": "linear"
                 }
@@ -2934,7 +2828,7 @@
       "type": "font",
       "targetClipId": "clip_title",
       "targetProperty": "text.fontFamily",
-      "defaultValue": "Acumin Pro"
+      "defaultValue": "Bebas Neue"
     },
     {
       "id": "param_title_size",
@@ -2942,9 +2836,9 @@
       "type": "number",
       "targetClipId": "clip_title",
       "targetProperty": "text.fontSize",
-      "defaultValue": 287.0,
-      "min": 172,
-      "max": 430,
+      "defaultValue": 143.5,
+      "min": 86,
+      "max": 220,
       "step": 1
     },
     {
